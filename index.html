@@ -6,9 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Simple Calandar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
     <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
         table {
             border: 1px solid black;
             border-collapse: collapse;
@@ -22,60 +32,99 @@
             right: 0px;
         }
 
-        table th,
-        table td {
-            border: 1px solid black;
+        .table-bordered th,
+        .table-bordered td {
+            border: 1px solid #99a6b2;
+            padding: 4px;
         }
 
-        table td {
-            vertical-align: baseline;
+        .table-bordered thead th {
+            border-bottom: 1px solid #99a6b2;
+        }
+
+        #calendar-container {
+            position: relative;
+            height: 100%;
+            padding-bottom: 15px;
+        }
+
+        #calendar-header {
+            height: 64px;
+        }
+
+        #calendar-header h1 {
+            font-weight: 400;
+        }
+
+        #calendar {
+            height: calc(100% - 64px);
+            position: relative;
+        }
+
+        table td > span {
+            display: block;
+            font-weight: 500;
         }
 
         .faded {
-            background-color: lightgray;
+            background-color: #d3d3d363;
         }
 
+        .currentDay {
+            border-bottom: 1px solid black;
+            width: fit-content;
+        }
     </style>
 </head>
 
-<body>
-    <table>
-        <thead>
-            <tr>
-                <th>Sunday</th>
-                <th>Monday</th>
-                <th>Tuesday</th>
-                <th>Wednesday</th>
-                <th>Thursday</th>
-                <th>Friday</th>
-                <th>Sataturday</th>
-            </tr>
-        </thead>
-        <tbody id="body">
-        </tbody>
-    </table>
+<body class="container-fluid">
+    <div id="calendar-container">
+        <div id="calendar-header">
+            <h1 id="monthAndYear"></h1>
+        </div>
+        <div id="calendar">
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th>Sunday</th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Sataturday</th>
+                    </tr>
+                </thead>
+                <tbody id="body">
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <script>
         var tableBody = document.querySelector("#body");
-        
+        document.querySelector("#monthAndYear").innerText = moment().format("MMMM") + " - " + moment().format("YYYY");
+
         //Based off https://stackoverflow.com/questions/39786372/creating-a-custom-calendar-with-moment-using-days-weeks-and-headings
         const startWeek = moment().startOf('month').week();
         const endWeek = moment().endOf('month').week();
 
-        let calendar = []
-        for(var week = startWeek; week<=endWeek;week++){
+        for (var week = startWeek; week <= endWeek; week++) {
             var tableRow = document.createElement("tr");
 
-            Array(7).fill(0).map((n, i) => moment().week(week).startOf('week').clone().add(n + i, 'day')).forEach(function(date){
+            Array(7).fill(0).map((n, i) => moment().week(week).startOf('week').clone().add(n + i, 'day')).forEach(function (date) {
                 var column = document.createElement("td");
                 var span = document.createElement("span");
-                
-                span.innerText = date.date();
-                column.appendChild(span);
+                var day = date.date();
 
-                if(date.month() !== moment().month()){
+                if (date.month() !== moment().month()) {
                     column.classList.add('faded');
+                } else {
+                    span.setAttribute("id", day);
                 }
+
+                span.innerText = day;
+                column.appendChild(span);
 
                 tableRow.appendChild(column);
             })
@@ -83,7 +132,8 @@
             tableBody.appendChild(tableRow)
         }
 
-        
+        document.getElementById(moment().date()).classList.add("currentDay");
+
     </script>
 </body>
 
