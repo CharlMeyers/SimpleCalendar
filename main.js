@@ -1,6 +1,7 @@
 var DrawCalendar = function () {
     var tableBody = document.querySelector("#body");
     document.querySelector("#monthAndYear").innerText = moment().format("MMMM") + " - " + moment().format("YYYY");
+    document.querySelector("title").innerText = "Simple Calandar | " + moment().format("D MMMM YYYY");
 
     //Based off https://stackoverflow.com/questions/39786372/creating-a-custom-calendar-with-moment-using-days-weeks-and-headings
     const startWeek = moment().startOf('month').week();
