@@ -5,76 +5,15 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Simple Calandar</title>
+    <link rel="icon" type="image/png" href="small-calendar.png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-        crossorigin="anonymous">
-    <style>
-        html,
-        body {
-            height: 100%;
-        }
+        crossorigin="anonymous" />
+    <link rel="stylesheet" href="main.css" />
 
-        body {
-            overflow: hidden;
-        }
-
-        table {
-            border: 1px solid black;
-            border-collapse: collapse;
-            table-layout: fixed;
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0px;
-            bottom: 0px;
-            left: 0px;
-            right: 0px;
-        }
-
-        .table-bordered th,
-        .table-bordered td {
-            border: 1px solid #99a6b2;
-            padding: 4px;
-        }
-
-        .table-bordered thead th {
-            border-bottom: 1px solid #99a6b2;
-        }
-
-        #calendar-container {
-            position: relative;
-            height: 100%;
-            padding-bottom: 15px;
-        }
-
-        #calendar-header {
-            height: 64px;
-        }
-
-        #calendar-header h1 {
-            font-weight: 400;
-        }
-
-        #calendar {
-            height: calc(100% - 64px);
-            position: relative;
-        }
-
-        table td > span {
-            display: block;
-            font-weight: 500;
-        }
-
-        .faded {
-            background-color: #d3d3d363;
-        }
-
-        .currentDay {
-            border-bottom: 1px solid black;
-            width: fit-content;
-        }
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="main.js"></script>
 </head>
 
 <body class="container-fluid">
@@ -92,7 +31,7 @@
                         <th>Wednesday</th>
                         <th>Thursday</th>
                         <th>Friday</th>
-                        <th>Sataturday</th>
+                        <th>Saturday</th>
                     </tr>
                 </thead>
                 <tbody id="body">
@@ -101,40 +40,7 @@
         </div>
     </div>
 
-    <script>
-        var tableBody = document.querySelector("#body");
-        document.querySelector("#monthAndYear").innerText = moment().format("MMMM") + " - " + moment().format("YYYY");
-
-        //Based off https://stackoverflow.com/questions/39786372/creating-a-custom-calendar-with-moment-using-days-weeks-and-headings
-        const startWeek = moment().startOf('month').week();
-        const endWeek = moment().endOf('month').week();
-
-        for (var week = startWeek; week <= endWeek; week++) {
-            var tableRow = document.createElement("tr");
-
-            Array(7).fill(0).map((n, i) => moment().week(week).startOf('week').clone().add(n + i, 'day')).forEach(function (date) {
-                var column = document.createElement("td");
-                var span = document.createElement("span");
-                var day = date.date();
-
-                if (date.month() !== moment().month()) {
-                    column.classList.add('faded');
-                } else {
-                    span.setAttribute("id", day);
-                }
-
-                span.innerText = day;
-                column.appendChild(span);
-
-                tableRow.appendChild(column);
-            })
-
-            tableBody.appendChild(tableRow)
-        }
-
-        document.getElementById(moment().date()).classList.add("currentDay");
-
-    </script>
+    <div hidden>Icons made by <a href="https://www.flaticon.com/authors/designmodo" title="Designmodo">Designmodo</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 </body>
 
 </html>
