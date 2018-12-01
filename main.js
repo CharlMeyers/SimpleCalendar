@@ -3,14 +3,20 @@ var DrawCalendar = function () {
     document.querySelector("#monthAndYear").innerText = moment().format("MMMM") + " - " + moment().format("YYYY");
     document.querySelector("title").innerText = "Simple Calandar | " + moment().format("D MMMM YYYY");
 
-    //Based off https://stackoverflow.com/questions/39786372/creating-a-custom-calendar-with-moment-using-days-weeks-and-headings
-    const startWeek = moment().startOf('month').week();
-    const endWeek = moment().endOf('month').week();
-
-    for (var week = startWeek; week <= endWeek; week++) {
+    //Based off a combination of the answers at https://stackoverflow.com/questions/39786372/creating-a-custom-calendar-with-moment-using-days-weeks-and-headings
+    const startDay = moment().clone().startOf('month').startOf('week');
+    const endDay = moment().clone().endOf('month').endOf('week');
+    
+    let calendar = [];
+    var index = startDay.clone().subtract(1, 'day');
+    while (index.isBefore(endDay, 'day')) {
         var tableRow = document.createElement("tr");
 
-        Array(7).fill(0).map((n, i) => moment().week(week).startOf('week').clone().add(n + i, 'day')).forEach(function (date) {
+        Array(7).fill(0).map(
+            function(n, i) {
+                return index.add(1, 'day').clone();
+            }
+        ).forEach(function(date){
             var column = document.createElement("td");
             var span = document.createElement("span");
             var day = date.date();
