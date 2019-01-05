@@ -57,7 +57,10 @@ table {
 #calendar-header {
     height: 64px;
     display: flex;
+    display: -webkit-box;
     align-items: center;
+    -webkit-box-align: center;
+    -webkit-box-pack: justify;
 }
 
 #calendar-header h1 {
@@ -102,8 +105,10 @@ table td > span {
 
 .chevron.left {
     transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
 }
 
 .chevron.right {
     transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
 }
