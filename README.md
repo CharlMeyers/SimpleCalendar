@@ -5,4 +5,4 @@ This calendar has been made to be as simple as possible, with no extra fluff. It
 
 Since this is intended to run fromm limited hardware there are as little included libraries as possible. SO far the only included libraries are [moment.js](https://momentjs.com/) and [bootstrap](https://getbootstrap.com/) css added through a CDN.
 
-To use it go to [simplecalendar.online](www.simplecalendar.online), or run `index.html` directly on your hardware.
+To use it go to [simplecalendar.online](http://www.simplecalendar.online), or run `index.html` directly on your hardware.
