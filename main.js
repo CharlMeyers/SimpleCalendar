@@ -17,11 +17,8 @@ function DrawCalendar(chosenMonth) {
     while (index.isBefore(endDay, 'day')) {
         var tableRow = document.createElement("tr");
 
-        Array(7).fill(0).map(
-            function (n, i) {
-                return index.add(1, 'day').clone();
-            }
-        ).forEach(function (date) {
+        for(var days = 0; days < 7; days++) {
+            var date = index.add(1, 'day').clone();
             var column = document.createElement("td");
             var span = document.createElement("span");
             var day = date.date();
@@ -36,7 +33,7 @@ function DrawCalendar(chosenMonth) {
             column.appendChild(span);
 
             tableRow.appendChild(column);
-        })
+        };
 
         tableBody.appendChild(tableRow)
     }
