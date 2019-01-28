@@ -56,6 +56,10 @@ table {
 
 #calendar-header {
     height: 64px;
+}
+
+#calendar-header .calendar-header-item {
+    height: 100%;
     display: flex;
     display: -webkit-box;
     align-items: center;
