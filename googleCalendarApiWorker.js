@@ -54,19 +54,6 @@ function handleSignoutClick(event) {
 }
 
 /**
- * Append a pre element to the body containing the given message
- * as its text node. Used to display the results of the API call.
- *
- * @param {string} message Text to be placed in pre element.
- */
-function appendPre(message) {
-    // var pre = document.getElementById('content');
-    // var textContent = document.createTextNode(message + '\n');
-    // pre.appendChild(textContent);
-    console.log(message);
-}
-
-/**
  * Print the summary and start datetime/date of the next ten events in
  * the authorized user's calendar. If no events are found an
  * appropriate message is printed.
@@ -76,7 +63,7 @@ function listUpcomingEvents() {
     var endDay = getEndDateOfMonth(window.userSelectedMonth);
 
     gapi.client.calendar.events.list({
-        'calendarId': 'en.sa#holiday@group.v.calendar.google.com',
+        'calendarId': 'primary',
         'timeMin': startDay.toISOString(),
         'timeMax': endDay.toISOString(),
         'showDeleted': false,
@@ -85,20 +72,8 @@ function listUpcomingEvents() {
         'orderBy': 'startTime'
     }).then(function (response) {
         var events = response.result.items;
-        appendPre('Upcoming events:');
-
-        if (events.length > 0) {
-            for (i = 0; i < events.length; i++) {
-                var event = events[i];
-                var when = event.start.dateTime;
-                if (!when) {
-                    when = event.start.date;
-                }
-                appendPre(event.summary + ' (' + when + ')')
-            }
-        } else {
-            appendPre('No upcoming events found.');
-        }
+        
+        addEventsToCalendar(events);
     });
 }
 

@@ -6,22 +6,26 @@ function getStartDateOfMonth(currentDate) {
     return currentDate.clone().startOf('month').startOf('week');
 }
 
-function getEndDateOfMonth(currentDate){
+function getEndDateOfMonth(currentDate) {
     return currentDate.clone().endOf('month').endOf('week');
 }
 
+/**
+ * Generates the calendar
+ * @param {date} chosenMonth The month that the user wants displayed
+ */
 function drawCalendar(chosenMonth) {
     var tableBody = document.querySelector("#body");
-    var currentDate = moment(chosenMonth);
+    var selectedDate = moment(chosenMonth);
 
-    document.querySelector("#monthAndYear").innerText = formatMonthAndYear(currentDate);
-    document.querySelector("title").innerText = "Simple Calandar | " + currentDate.format("D MMMM YYYY");
+    document.querySelector("#monthAndYear").innerText = formatMonthAndYear(selectedDate);
+    document.querySelector("title").innerText = "Simple Calandar | " + selectedDate.format("D MMMM YYYY");
 
-    window.userSelectedMonth = currentDate;
+    window.userSelectedMonth = selectedDate;
 
     //Based off a combination of the answers at https://stackoverflow.com/questions/39786372/creating-a-custom-calendar-with-moment-using-days-weeks-and-headings
-    const startDay = getStartDateOfMonth(currentDate);
-    const endDay = getEndDateOfMonth(currentDate);
+    const startDay = getStartDateOfMonth(selectedDate);
+    const endDay = getEndDateOfMonth(selectedDate);
 
     let calendar = [];
     var index = startDay.clone().subtract(1, 'day');
@@ -34,12 +38,11 @@ function drawCalendar(chosenMonth) {
             var span = document.createElement("span");
             var day = date.date();
 
-            if (date.month() !== currentDate.month()) {
-                column.classList.add('faded');
-            } else {
-                span.setAttribute("id", day);
+            if (date.month() !== selectedDate.month()) {
+                column.classList.add("faded");
             }
 
+            column.setAttribute("data-date", date.format("YYYY-MM-DD"));
             span.innerText = day;
             column.appendChild(span);
 
@@ -49,8 +52,29 @@ function drawCalendar(chosenMonth) {
         tableBody.appendChild(tableRow)
     }
 
-    if (moment().month() === currentDate.month()) {
-        document.getElementById(moment().date()).classList.add("currentDay");
+    var currentDate = moment();
+    if (currentDate.month() === selectedDate.month() && currentDate.year() === selectedDate.year()) {
+        var selector = "td[data-date='" + currentDate.format("YYYY-MM-DD") + "'] > span";
+        document.querySelector(selector).classList.add("currentDay");
+    }
+}
+
+/**
+ * Loops through all events and adds the event to the calendar day
+ * @param {Array} events the events array of type Google Calenendar Events see https://developers.google.com/calendar/v3/reference/events#resource
+ */
+function addEventsToCalendar(events) {
+    for (index in events) {
+        var event = events[index];
+        var span = document.createElement("span")
+        var eventDate = event.start.date;
+        var selector = "td[data-date='" + eventDate + "']";
+        var dayElement = document.querySelector(selector);
+
+        if (dayElement !== null && dayElement !== undefined) {
+            span.innerText = event.summary;
+            dayElement.appendChild(span);
+        }
     }
 }
 
