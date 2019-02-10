@@ -10,7 +10,7 @@
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous" />
-    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway|Lato:300,400" rel="stylesheet">
     <script src="https://apis.google.com/js/api.js"></script>
     <link rel="stylesheet" href="main.css" />
 
@@ -26,12 +26,12 @@
             <div class="calendar-header-item float-left"><div class="chevron left" onclick="previousMonth()"></div></div>
             <div class="calendar-header-item float-left">
                 <h1 id="monthAndYear"></h1>
-                <div>
-                    <button id="authorize_button" style="display: none;">Authorize</button>
-                    <button id="signout_button" style="display: none;">Sign Out</button>
-                </div>
             </div>
             <div class="calendar-header-item float-right"><div class="chevron right" onclick="nextMonth()"></div></div>
+            <div class="calendar-header-item float-right">
+                <button class="btn btn-link text-dark" id="authorize_button" style="display: none;">Authorize</button>
+                <button class="btn btn-link text-dark" id="signout_button" style="display: none;">Sign Out</button>
+            </div>
         </div>
         <div id="calendar">
             <table class="table table-bordered table-sm">

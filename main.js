@@ -35,7 +35,8 @@ function drawCalendar(chosenMonth) {
         for (var days = 0; days < 7; days++) {
             var date = index.add(1, 'day').clone();
             var column = document.createElement("td");
-            var span = document.createElement("span");
+            var dayContainer = document.createElement("div");
+            var eventsContainer = document.createElement("div");
             var day = date.date();
 
             if (date.month() !== selectedDate.month()) {
@@ -43,8 +44,12 @@ function drawCalendar(chosenMonth) {
             }
 
             column.setAttribute("data-date", date.format("YYYY-MM-DD"));
-            span.innerText = day;
-            column.appendChild(span);
+            dayContainer.innerText = day;
+            dayContainer.classList.add("day");
+            column.appendChild(dayContainer);
+
+            eventsContainer.classList.add("events-container");
+            column.appendChild(eventsContainer);
 
             tableRow.appendChild(column);
         };
@@ -54,7 +59,7 @@ function drawCalendar(chosenMonth) {
 
     var currentDate = moment();
     if (currentDate.month() === selectedDate.month() && currentDate.year() === selectedDate.year()) {
-        var selector = "td[data-date='" + currentDate.format("YYYY-MM-DD") + "'] > span";
+        var selector = "td[data-date='" + currentDate.format("YYYY-MM-DD") + "'] > .day";
         document.querySelector(selector).classList.add("currentDay");
     }
 }
@@ -66,14 +71,17 @@ function drawCalendar(chosenMonth) {
 function addEventsToCalendar(events) {
     for (index in events) {
         var event = events[index];
-        var span = document.createElement("span")
+        
         var eventDate = event.start.date;
-        var selector = "td[data-date='" + eventDate + "']";
+        var selector = "td[data-date='" + eventDate + "'] > .events-container";
         var dayElement = document.querySelector(selector);
 
         if (dayElement !== null && dayElement !== undefined) {
-            span.innerText = event.summary;
-            dayElement.appendChild(span);
+            var div = document.createElement("div")
+
+            div.classList.add("event");
+            div.innerText = event.summary;
+            dayElement.appendChild(div);
         }
     }
 }
