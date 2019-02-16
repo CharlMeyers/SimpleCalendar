@@ -108,6 +108,11 @@ table {
     background-color: #e8e8e8;
 }
 
+.events-container {
+    height: 100%;
+    overflow-y: hidden;
+}
+
 .chevron {
     border-top: 3px solid black;
     border-left: 3px solid black;

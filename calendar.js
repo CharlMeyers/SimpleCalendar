@@ -1,5 +1,5 @@
 function redrawCalendar(increment) {
-    document.querySelector("#body").innerHTML = "";
+    document.querySelector("#calendarBody").innerHTML = "";
     var currentMonth = document.querySelector("#monthAndYear").innerText;
     var newMonth = formatMonthAndYear(moment(currentMonth).add(increment, "month"));
 

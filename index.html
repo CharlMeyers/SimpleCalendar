@@ -20,7 +20,7 @@
     <script src="calendar.js"></script>
 </head>
 
-<body class="container-fluid">
+<body class="container-fluid" onresize="adjustRowHeight()">
     <div id="calendar-container">
         <div id="calendar-header">
             <div class="calendar-header-item float-left"><div class="chevron left" onclick="previousMonth()"></div></div>
@@ -46,7 +46,7 @@
                         <th>Saturday</th>
                     </tr>
                 </thead>
-                <tbody id="body">
+                <tbody id="calendarBody">
                 </tbody>
             </table>
         </div>

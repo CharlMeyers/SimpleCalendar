@@ -10,12 +10,27 @@ function getEndDateOfMonth(currentDate) {
     return currentDate.clone().endOf('month').endOf('week');
 }
 
+function adjustRowHeight(){
+    var calendarCells = document.querySelectorAll("#calendarBody tr td");
+    var calendarRowHeight = document.querySelector("#calendarBody tr").clientHeight;
+
+
+    for(var index = 0 in calendarCells){
+        if (calendarCells.hasOwnProperty(index)){
+            var calendarCellHeaderHeight = calendarCells[index].querySelector(".day").offsetHeight;
+            
+            //10px is the known height for border and padding (set in css)
+            calendarCells[index].querySelector(".events-container").style.height = (calendarRowHeight - calendarCellHeaderHeight - 10) + "px";
+        }        
+    }
+}
+
 /**
  * Generates the calendar
  * @param {date} chosenMonth The month that the user wants displayed
  */
 function drawCalendar(chosenMonth) {
-    var tableBody = document.querySelector("#body");
+    var tableBody = document.querySelector("#calendarBody");
     var selectedDate = moment(chosenMonth);
 
     document.querySelector("#monthAndYear").innerText = formatMonthAndYear(selectedDate);
@@ -27,8 +42,8 @@ function drawCalendar(chosenMonth) {
     const startDay = getStartDateOfMonth(selectedDate);
     const endDay = getEndDateOfMonth(selectedDate);
 
-    let calendar = [];
     var index = startDay.clone().subtract(1, 'day');
+
     while (index.isBefore(endDay, 'day')) {
         var tableRow = document.createElement("tr");
 
@@ -62,6 +77,8 @@ function drawCalendar(chosenMonth) {
         var selector = "td[data-date='" + currentDate.format("YYYY-MM-DD") + "'] > .day";
         document.querySelector(selector).classList.add("currentDay");
     }
+
+    adjustRowHeight()
 }
 
 /**
