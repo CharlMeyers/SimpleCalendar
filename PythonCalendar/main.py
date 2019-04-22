@@ -9,8 +9,18 @@ width = 640
 cal = calendar.Calendar()
 calendarGrid = Image.new('1', (width, height), constants.WHITE)
 
-# def write_calandar_day(draw_element, coordinate_x, coordinate_y, text)
+def underline_text(draw_element, coordinate_x, coordinate_y, text, font):
+	text_height, text_width = draw_element.textsize(text, font)
+	padding = 2
+	draw_element.text((coordinate_x, coordinate_y), text, constants.FONT_COLOR, font)
+	draw_element.line((coordinate_x, coordinate_y + text_height + padding, coordinate_x + text_width, coordinate_y + text_height + padding))
 
+def write_calendar_day(draw_element, coordinate_x, coordinate_y, calendar_day):
+	if calendar_day == constants.TODAY.day: #TODO rather encircle
+		underline_text(draw_element, coordinate_x, coordinate_y, str(calendar_day), constants.DATE_FONT)
+	else:
+		draw_element.text((coordinate_x, coordinate_y),
+					  str(calendar_day), constants.FONT_COLOR, constants.DATE_FONT)
 
 
 def build_calendar():
@@ -23,8 +33,8 @@ def build_calendar():
 	calendar_day_name_offset = constants.WEEK_HEADER_HEIGHT + constants.CALENDAR_TOP
 
 	draw = ImageDraw.Draw(calendarGrid)
-	draw.text((constants.CALENDAR_BORDER, constants.CALENDAR_BORDER), constants.TODAY.strftime("%B - %Y"), constants.FONT_COLOR,
-			  constants.HEADER_FONT)
+	draw.text((constants.CALENDAR_BORDER, constants.CALENDAR_BORDER), constants.TODAY.strftime("%B - %Y"),
+			  constants.FONT_COLOR, constants.HEADER_FONT)
 	# Draw main calendar box
 	draw.rectangle((constants.CALENDAR_BORDER, constants.CALENDAR_TOP, calendar_end_coordinates_width,
 					calendar_end_coordinates_height), constants.FILL_COLOR, constants.LINE_COLOR, constants.LINE_WIDTH)
@@ -37,11 +47,13 @@ def build_calendar():
 
 	for day in calendar.day_name:
 		draw.line((coordinates_vertical, constants.CALENDAR_TOP, coordinates_vertical, calendar_end_coordinates_height))
-		draw.text((coordinates_vertical + constants.CELL_PADDING, constants.WEEK_HEADER_TOP_COORDINATES), day, constants.FONT_COLOR, constants.WEEKDAY_FONT)
+		draw.text((coordinates_vertical + constants.CELL_PADDING, constants.WEEK_HEADER_TOP_COORDINATES), day,
+				  constants.FONT_COLOR, constants.WEEKDAY_FONT)
 
 		coordinates_vertical += vertical_step
 	for i in range(1, number_of_weeks):
-		draw.line((constants.CALENDAR_BORDER, coordinates_horizontal + calendar_header_offset, calendar_end_coordinates_width, coordinates_horizontal + calendar_header_offset))
+		draw.line((constants.CALENDAR_BORDER, coordinates_horizontal + calendar_header_offset,
+				   calendar_end_coordinates_width, coordinates_horizontal + calendar_header_offset))
 		coordinates_horizontal += horizontal_step
 
 	calendar_days = cal.itermonthdays(constants.TODAY.year, constants.TODAY.month)
@@ -52,17 +64,17 @@ def build_calendar():
 	for date in calendar_days:
 		if date != 0:
 			if coordinates_vertical != constants.CALENDAR_BORDER and coordinates_horizontal != 0:
-				draw.text((coordinates_vertical + constants.CELL_PADDING, coordinates_horizontal + calendar_header_offset),
-						  str(date), constants.FONT_COLOR, constants.DATE_FONT)
+				write_calendar_day(draw, coordinates_vertical + constants.CELL_PADDING,
+								   coordinates_horizontal + calendar_header_offset, date)
 			elif coordinates_vertical != constants.CALENDAR_BORDER:
-				draw.text((coordinates_vertical + constants.CELL_PADDING, coordinates_horizontal + calendar_day_name_offset),
-						  str(date), constants.FONT_COLOR, constants.DATE_FONT)
+				write_calendar_day(draw, coordinates_vertical + constants.CELL_PADDING,
+								   coordinates_horizontal + calendar_day_name_offset, date)
 			elif coordinates_horizontal == 0 and coordinates_vertical == constants.CALENDAR_BORDER:
-				draw.text((constants.CALENDAR_BORDER + constants.CELL_PADDING, coordinates_horizontal + calendar_day_name_offset),
-						  str(date), constants.FONT_COLOR, constants.DATE_FONT)
+				write_calendar_day(draw, constants.CALENDAR_BORDER + constants.CELL_PADDING,
+								   coordinates_horizontal + calendar_day_name_offset, date)
 			else:
-				draw.text((constants.CALENDAR_BORDER + constants.CELL_PADDING, coordinates_horizontal + calendar_header_offset),
-						  str(date), constants.FONT_COLOR, constants.DATE_FONT)
+				write_calendar_day(draw, constants.CALENDAR_BORDER + constants.CELL_PADDING,
+								   coordinates_horizontal + calendar_header_offset, date)
 
 		coordinates_vertical += vertical_step
 		if day_in_month % 7 == 0:
