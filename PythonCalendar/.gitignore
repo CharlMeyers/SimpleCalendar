@@ -1,4 +1,6 @@
 *.ttf
+token.pickle
+credentials.json
 
 venv
 __pycache__

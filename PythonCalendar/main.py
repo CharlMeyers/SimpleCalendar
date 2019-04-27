@@ -1,7 +1,9 @@
+from datetime import datetime
 from PIL import Image, ImageDraw
 import math
 import calendar
 import constants
+import googleCalendarWorker
 
 height = 384  # To be replaced by display resolution
 width = 640
@@ -37,27 +39,26 @@ def add_event(draw_element, coordinate_x, coordinate_y, events):
 	ellipsis_height, ellipsis_width = draw_element.textsize(constants.ELLIPSIS, constants.DATE_FONT)
 	max_event_length = determine_max_sentance_length(text_width, ellipsis_width)
 
-	print(max_event_length)
-
 	text_height += constants.CELL_PADDING
 
 	for event in events:
-		if len(event) > max_event_length:
-			event = event[:max_event_length] + constants.ELLIPSIS
+		if len(event['summary']) > max_event_length:
+			event = event['summary'][:max_event_length] + constants.ELLIPSIS
 
 		draw_element.text((coordinate_x, coordinate_y + text_height), event, constants.FONT_COLOR, constants.DATE_FONT)
 		coordinate_y += text_height
 
 
 def write_calendar_day(draw_element, coordinate_x, coordinate_y, calendar_day, events):
-	if calendar_day == constants.TODAY.day: #TODO rather encircle
+	if calendar_day == constants.TODAY.day: #TODO rather encircle instead of underline the current day
 		underline_text(draw_element, coordinate_x, coordinate_y, str(calendar_day), constants.DATE_FONT)
 	else:
 		draw_element.text((coordinate_x, coordinate_y),
 					  str(calendar_day), constants.FONT_COLOR, constants.DATE_FONT)
 
-	if calendar_day in events:
-		add_event(draw_element, coordinate_x, coordinate_y, events[calendar_day])
+	events_for_current_day = [event for event in events if datetime.strptime(event['start'].get('date'), '%Y-%m-%d').day == calendar_day]
+	if events_for_current_day and len(events_for_current_day) > 0:
+		add_event(draw_element, coordinate_x, coordinate_y, events_for_current_day)
 
 
 def build_calendar(events):
@@ -121,12 +122,7 @@ def build_calendar(events):
 		day_in_month += 1
 
 
-def generate_events():
-	events = {2: ["Public Holiday"], 6: ["Random reminder"],
-			  15: ["A very long reminder", "Hare sny", "A reminder that is supposed to overflow"]}
-
-	return events
-
-
-build_calendar(generate_events())
+events = googleCalendarWorker.getEvents()
+build_calendar(events)
 calendarGrid.show()
+

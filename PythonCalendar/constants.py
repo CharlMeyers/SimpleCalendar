@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 
 from PIL import ImageFont
 
@@ -27,8 +27,9 @@ FONT_BOLD = "Raleway-Bold.ttf"
 HEADER_FONT = ImageFont.truetype(FONT_REGULAR, 18)
 WEEKDAY_FONT = ImageFont.truetype(FONT_BOLD, 14)
 DATE_FONT = ImageFont.truetype(FONT_REGULAR, 14)
+EVENT_FONT = ImageFont.truetype(FONT_REGULAR, 12)
 
-TODAY = date.today()
+TODAY = datetime.today()
 ELLIPSIS = '...'
 
 
