@@ -2,6 +2,9 @@
 token.pickle
 credentials.json
 
+epd7in5.py
+epdconfig.py
+
 venv
 __pycache__
 
