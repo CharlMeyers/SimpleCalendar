@@ -12,7 +12,7 @@ import constants
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
 
-def get_events():
+def get_events(calendar_ids):
 	user_credentials = None
 
 	# The file token.pickle stores the user's access and refresh tokens, and is
@@ -41,10 +41,12 @@ def get_events():
 	last_day_of_month = constants.TODAY.replace(day=calendar.monthrange(constants.TODAY.year, constants.TODAY.month)[1])
 
 	print('Getting events for current month')
-	events_result = service.events().list(calendarId='en.sa#holiday@group.v.calendar.google.com', timeMin=first_day_of_month.isoformat() + 'Z',
-										timeMax=last_day_of_month.isoformat() + 'Z', singleEvents=True, showDeleted=False,
-										orderBy='startTime').execute()
+	events = []
+	for calendar_id in calendar_ids:
+		events_result = service.events().list(calendarId= calendar_id, timeMin=first_day_of_month.isoformat() + 'Z',
+											timeMax=last_day_of_month.isoformat() + 'Z', singleEvents=True, showDeleted=False,
+											orderBy='startTime').execute()
 
-	events = events_result.get('items', [])
+		events.extend(events_result.get('items', []))
 
 	return events

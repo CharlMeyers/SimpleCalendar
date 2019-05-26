@@ -21,26 +21,38 @@ class CalendarBuilder:
 
 		return answer
 
+	def get_text_dimentions(self, text, font):
+		# https://stackoverflow.com/questions/43060479/how-to-get-the-font-pixel-height-using-pil-imagefont
+		ascent, descent = font.getmetrics()
+		text_height, text_width = font.getsize(text)
+
+		return ascent, text_height, text_width
+
 	def highlight_today(self, draw_element, coordinate_x, coordinate_y, text, font):
 		# From https://stackoverflow.com/questions/8868564/draw-underline-text-with-pil
-		text_height, text_width = draw_element.textsize(text, font)
+		ascent, text_height, text_width = self.get_text_dimentions(text, font)
 		padding = constants.LINE_PADDING
 		draw_element.text((coordinate_x, coordinate_y), text, constants.FONT_COLOR, font)
-		draw_element.arc((coordinate_x - padding, coordinate_y, coordinate_x + text_width + padding,
-						   coordinate_y + text_height + padding), 0, 360, constants.LINE_COLOR)
+		# draw_element.arc((coordinate_x - padding, coordinate_y, coordinate_x + text_width + padding,
+		# 				   coordinate_y + text_height + padding), 0, 360, constants.LINE_COLOR)
+		draw_element.line((coordinate_x, coordinate_y + ascent + padding, coordinate_x + text_width, coordinate_y + ascent + padding))
 
 	def add_event(self, draw_element, coordinate_x, coordinate_y, events):
-		text_height, text_width = draw_element.textsize('A', constants.DATE_FONT) # Trying to use the widest character
+		ascent, text_height, text_width = self.get_text_dimentions('A', constants.DATE_FONT) # Trying to use the widest character
 		ellipsis_height, ellipsis_width = draw_element.textsize(constants.ELLIPSIS, constants.DATE_FONT)
 		max_event_length = self.determine_max_sentence_length(text_width, ellipsis_width)
 
-		text_height += constants.CELL_PADDING
+		text_height += constants.CELL_PADDING + constants.LINE_PADDING
 
 		for event in events:
-			if len(event['summary']) > max_event_length:
-				event = event['summary'][:max_event_length] + constants.ELLIPSIS
+			summary = None
+			if event['summary']:
+				summary = event['summary']
+				if len(summary) > max_event_length:
+					summary = summary[:max_event_length] + constants.ELLIPSIS
 
-			draw_element.text((coordinate_x, coordinate_y + text_height), event, constants.FONT_COLOR, constants.DATE_FONT)
+			if summary:
+				draw_element.text((coordinate_x, coordinate_y + text_height), summary, constants.FONT_COLOR, constants.DATE_FONT)
 			coordinate_y += text_height
 
 	def write_calendar_day(self, draw_element, coordinate_x, coordinate_y, calendar_day, events):
@@ -50,7 +62,10 @@ class CalendarBuilder:
 			draw_element.text((coordinate_x, coordinate_y),
 						  str(calendar_day), constants.FONT_COLOR, constants.DATE_FONT)
 
-		events_for_current_day = [event for event in events if datetime.strptime(event['start'].get('date'), '%Y-%m-%d').day == calendar_day]
+		events_for_current_day = [event for event in events if event['start'] and event['start'].get('date') and
+								  datetime.strptime(event['start'].get('date'), '%Y-%m-%d').day == calendar_day]
+		events_for_current_day.extend([event for event in events if event['start'] and event['start'].get('dateTime') and
+								  datetime.strptime(event['start'].get('dateTime')[0: event['start'].get('dateTime').index('T')], '%Y-%m-%d').day == calendar_day])
 		if events_for_current_day and len(events_for_current_day) > 0:
 			self.add_event(draw_element, coordinate_x, coordinate_y, events_for_current_day)
 
