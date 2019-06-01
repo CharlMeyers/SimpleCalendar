@@ -4,7 +4,7 @@ A simple calendar that can replace your printed out version on the wall.
 
 This is a simple black and white calendar that integrates with [Google Calendar](https://developers.google.com/calendar/) to display your events. This is perfect for a e-ink calendar project.
 
-This program generates a black and white bitmap image for display on e-ink displays. This calendar has been written in Python with the [Waveshare 7.5inch e-ink](https://www.waveshare.com/7.5inch-e-paper-hat.htm) display in mind. However this should work with any screen resolution and e-paper display, just change the imported library in [screeninterface.py](screeninterface.py) to the library used for your display. It is also not limited to just e-ink displays, as long as your display can show bitmaps you should be fine.
+This program generates a black and white bitmap image for display on e-ink displays. This calendar has been written in Python with the [Waveshare 7.5inch e-ink](https://www.waveshare.com/7.5inch-e-paper-hat.htm) display in mind. However this should work with any screen resolution and e-paper display, just change the imported library in [screenInterface.py](screeninterface.py) to the library used for your display. It is also not limited to just e-ink displays, as long as your display can show bitmaps you should be fine.
 
 ## Setup notes
 
@@ -45,3 +45,36 @@ sudo pip3 install RPi.GPIO
 ```bash
 sudo pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 ```
+
+## Running the program
+
+To run the program simply run [main.py](main.py).
+
+### Before running for the first time
+
+You will need to enable Google Calendar API in your Google API Console (see [Google API Getting Started](https://developers.google.com/api-client-library/python/start/get_started) on how to enable your API key). For the application to run you need 2 things:
+
+1. A `credentials.json` file
+2. A `token.pickle` file
+
+See [Python Quickstart](https://developers.google.com/calendar/quickstart/python) on how to create these 2 files. It is easiest to run the example code they give you and just copy over the 2 required files to your microcontroller.
+
+These files are used to authenticate against a Google account where your calendars you want to see lives on.
+
+This program requires font files to work. You can specify your own path to your font of choice by changing `FONT_REGULAR` and `FONT_BOLD` in [constants.py](constants.py). To guarantee the best possible text alignment download "Raleway Light and Bold" from [Google Fonts](https://fonts.google.com/specimen/Raleway) and put it in the same directory as the program.
+
+### Customization
+
+Anything under "Customization" in [constants.py](constants.py) can be changed. You can change anything else under "Config" in [constants.py](constants.py) but it is not guaranteed that the calendar will look good without some further changes to the code.
+
+You can specify any number of calendars in [calendars.id](calendars.id) as long as it is in the same account used to authenticate the calendar. You can also comment out any calendar id's by putting a `#` at the start of the line.
+
+## Contributing
+
+* If you find any bug, you are free to raise an issue or fix the file yourself.
+* If you are contributing, please log an issue, and assign yourself to it
+* Submitting any code needs to be done trough a pull request with an issue linked to the pull request.
+
+## Licence
+
+This project uses the standard GNU General Public License v3.0 license.
