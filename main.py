@@ -6,7 +6,6 @@ print("Clearing screen")
 screenInterface.clear_screen()
 
 print("Getting calendar events")
-screenInterface.display_text("Getting calendar events")
 
 calendar_ids = []
 with open('calendars.id', 'r') as calendar_ids_file:
