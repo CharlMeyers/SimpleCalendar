@@ -69,6 +69,17 @@ This program requires font files to work. You can specify your own path to your 
 
 This works out of the box with [Waveshare 7.5inch e-ink](https://www.waveshare.com/7.5inch-e-paper-hat.htm), download the required [Python Library](https://www.waveshare.com/wiki/7.5inch_e-Paper_HAT) and copy `epd7in5.py` and `epdconfig.py` to the root folder of the project. To change the library to the one you need modify [screenInterface.py](screeninterface.py) with the library required for your display.
 
+### Tips
+
+* To update the calendar on boot create a cron job to run your script on startup.
+
+``` bash
+crontab -e
+@reboot python3 $HOME/SimpleCalendar/main.py
+```
+
+Save the file and run `crontab -l` to make sure that the job is there. Read [https://www.tecmint.com/11-cron-scheduling-task-examples-in-linux/](https://www.tecmint.com/11-cron-scheduling-task-examples-in-linux/) for more info.
+
 ### Customization
 
 Anything under "Customization" in [constants.py](constants.py) can be changed. You can change anything else under "Config" in [constants.py](constants.py) but it is not guaranteed that the calendar will look good without some further changes to the code.
