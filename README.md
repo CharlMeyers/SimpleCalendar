@@ -43,7 +43,7 @@ sudo pip3 install RPi.GPIO
 * Lastly install all pyton libraries required for Google Calendar API
 
 ```bash
-sudo pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+sudo pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 ```
 
 ## Running the program
@@ -61,7 +61,13 @@ See [Python Quickstart](https://developers.google.com/calendar/quickstart/python
 
 These files are used to authenticate against a Google account where your calendars you want to see lives on.
 
-This program requires font files to work. You can specify your own path to your font of choice by changing `FONT_REGULAR` and `FONT_BOLD` in [constants.py](constants.py). To guarantee the best possible text alignment download "Raleway Light and Bold" from [Google Fonts](https://fonts.google.com/specimen/Raleway) and put it in the same directory as the program.
+#### Note
+
+This program requires font files to work. You can specify your own path to your font of choice by changing `FONT_REGULAR` and `FONT_BOLD` in [constants.py](constants.py). To guarantee the best possible text alignment download "**Raleway Light** and **Bold**" from [Google Fonts](https://fonts.google.com/specimen/Raleway) and put it in the same directory as the program.
+
+#### Note
+
+This works out of the box with [Waveshare 7.5inch e-ink](https://www.waveshare.com/7.5inch-e-paper-hat.htm), download the required [Python Library](https://www.waveshare.com/wiki/7.5inch_e-Paper_HAT) and copy `epd7in5.py` and `epdconfig.py` to the root folder of the project. To change the library to the one you need modify [screenInterface.py](screeninterface.py) with the library required for your display.
 
 ### Customization
 
