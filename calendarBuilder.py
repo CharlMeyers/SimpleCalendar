@@ -15,22 +15,45 @@ class CalendarBuilder:
 	def get_horizontal_step(self, number_of_weeks):
 		return math.ceil((self.height - constants.CALENDAR_TOP - (constants.CALENDAR_BORDER * 2)) / number_of_weeks)
 
-	def determine_max_sentence_length(self, character_width, ellipsis_width):
-		cell_width = self.get_vertical_step() + ellipsis_width
+	def get_cell_width_with_ellips(self, draw_element):
+		ellipsis_height, ellipsis_width = draw_element.textsize(constants.ELLIPSIS, constants.DATE_FONT)
+		cell_width = self.get_vertical_step() - ellipsis_width
+
+		return cell_width
+
+	def determine_max_sentence_length(self, draw_element, character_width):
+		cell_width = self.get_cell_width_with_ellips(draw_element)
 		answer = math.ceil(cell_width / character_width)
 
 		return answer
 
-	def get_text_dimentions(self, text, font):
+	def trim_text(self, draw_element, text, starting_trim_index):
+		cell_width = self.get_cell_width_with_ellips(draw_element)
+		trimmed_text = text[:starting_trim_index]
+		accumulator = 1
+		next_ascent, next_text_height, next_text_width = self.get_text_dimensions(text[:starting_trim_index + accumulator] + constants.ELLIPSIS, constants.EVENT_FONT)
+
+		while next_text_width < cell_width and len(trimmed_text) < len(text):
+			trimmed_text = text[:starting_trim_index + accumulator]
+			accumulator += 1
+			next_ascent, next_text_height, next_text_width = self.get_text_dimensions(
+				text[:starting_trim_index + accumulator] + constants.ELLIPSIS, constants.EVENT_FONT)
+
+		if len(trimmed_text) == len(text):
+			return text
+		else:
+			return trimmed_text[:-1] + constants.ELLIPSIS
+
+	def get_text_dimensions(self, text, font):
 		# https://stackoverflow.com/questions/43060479/how-to-get-the-font-pixel-height-using-pil-imagefont
 		ascent, descent = font.getmetrics()
-		text_height, text_width = font.getsize(text)
+		text_width, text_height = font.getsize(text)
 
 		return ascent, text_height, text_width
 
 	def highlight_today(self, draw_element, coordinate_x, coordinate_y, text, font):
 		# From https://stackoverflow.com/questions/8868564/draw-underline-text-with-pil
-		ascent, text_height, text_width = self.get_text_dimentions(text, font)
+		ascent, text_height, text_width = self.get_text_dimensions(text, font)
 		padding = constants.LINE_PADDING
 		draw_element.text((coordinate_x, coordinate_y), text, constants.FONT_COLOR, font)
 		# draw_element.arc((coordinate_x - padding, coordinate_y, coordinate_x + text_width + padding,
@@ -38,9 +61,8 @@ class CalendarBuilder:
 		draw_element.line((coordinate_x, coordinate_y + ascent + padding, coordinate_x + text_width, coordinate_y + ascent + padding))
 
 	def add_event(self, draw_element, coordinate_x, coordinate_y, events):
-		ascent, text_height, text_width = self.get_text_dimentions('A', constants.DATE_FONT) # Trying to use the widest character
-		ellipsis_height, ellipsis_width = draw_element.textsize(constants.ELLIPSIS, constants.DATE_FONT)
-		max_event_length = self.determine_max_sentence_length(text_width, ellipsis_width)
+		ascent, text_height, text_width = self.get_text_dimensions('A', constants.DATE_FONT) # Trying to use the widest character
+		max_event_length = self.determine_max_sentence_length(draw_element, text_width)
 
 		text_height += constants.CELL_PADDING + constants.LINE_PADDING
 
@@ -49,7 +71,7 @@ class CalendarBuilder:
 			if event['summary']:
 				summary = event['summary']
 				if len(summary) > max_event_length:
-					summary = summary[:max_event_length] + constants.ELLIPSIS
+					summary = self.trim_text(draw_element, summary, max_event_length)
 
 			if summary:
 				draw_element.text((coordinate_x, coordinate_y + text_height), summary, constants.FONT_COLOR, constants.DATE_FONT)
