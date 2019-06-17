@@ -78,6 +78,13 @@ crontab -e
 @reboot python3 $HOME/SimpleCalendar/main.py
 ```
 
+* To update the calendar daily create a cron job to run your script at midnight.
+
+``` bash
+crontab -e
+@daily python3 $HOME/SimpleCalendar/main.py
+```
+
 Save the file and run `crontab -l` to make sure that the job is there. Read [https://www.tecmint.com/11-cron-scheduling-task-examples-in-linux/](https://www.tecmint.com/11-cron-scheduling-task-examples-in-linux/) for more info.
 
 ### Customization
