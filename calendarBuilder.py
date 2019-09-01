@@ -31,12 +31,12 @@ class CalendarBuilder:
 		cell_width = self.get_cell_width_with_ellips(draw_element)
 		trimmed_text = text[:starting_trim_index]
 		accumulator = 1
-		next_ascent, next_text_height, next_text_width = self.get_text_dimensions(text[:starting_trim_index + accumulator] + constants.ELLIPSIS, constants.EVENT_FONT)
+		next_ascent, next_text_height, next_text_width, descent = self.get_text_dimensions(text[:starting_trim_index + accumulator] + constants.ELLIPSIS, constants.EVENT_FONT)
 
 		while next_text_width < cell_width and len(trimmed_text) < len(text):
 			trimmed_text = text[:starting_trim_index + accumulator]
 			accumulator += 1
-			next_ascent, next_text_height, next_text_width = self.get_text_dimensions(
+			next_ascent, next_text_height, next_text_width, descent = self.get_text_dimensions(
 				text[:starting_trim_index + accumulator] + constants.ELLIPSIS, constants.EVENT_FONT)
 
 		if len(trimmed_text) == len(text):
@@ -49,22 +49,22 @@ class CalendarBuilder:
 		ascent, descent = font.getmetrics()
 		text_width, text_height = font.getsize(text)
 
-		return ascent, text_height, text_width
+		return ascent, text_height, text_width, descent
 
 	def highlight_today(self, draw_element, coordinate_x, coordinate_y, text, font):
 		# From https://stackoverflow.com/questions/8868564/draw-underline-text-with-pil
-		ascent, text_height, text_width = self.get_text_dimensions(text, font)
-		padding = constants.LINE_PADDING
+		ascent, text_height, text_width, descent = self.get_text_dimensions(text, font)
+		padding = text_height + descent
 		draw_element.text((coordinate_x, coordinate_y), text, constants.FONT_COLOR, font)
-		# draw_element.arc((coordinate_x - padding, coordinate_y, coordinate_x + text_width + padding,
-		# 				   coordinate_y + text_height + padding), 0, 360, constants.LINE_COLOR)
-		draw_element.line((coordinate_x, coordinate_y + ascent + padding, coordinate_x + text_width, coordinate_y + ascent + padding))
+		draw_element.arc((coordinate_x - constants.CIRCLE_PADDING, coordinate_y, coordinate_x + text_width +
+						  constants.CIRCLE_PADDING, coordinate_y + padding), 0, 360, constants.LINE_COLOR)
+		#draw_element.line((coordinate_x, coordinate_y + padding, coordinate_x + text_width, coordinate_y + padding))
 
 	def add_event(self, draw_element, coordinate_x, coordinate_y, events):
-		ascent, text_height, text_width = self.get_text_dimensions('A', constants.DATE_FONT) # Trying to use the widest character
+		ascent, text_height, text_width, descent = self.get_text_dimensions('A', constants.DATE_FONT) # Trying to use the widest character
 		max_event_length = self.determine_max_sentence_length(draw_element, text_width)
 
-		text_height += constants.CELL_PADDING + constants.LINE_PADDING
+		#text_height += constants.CELL_PADDING + constants.LINE_PADDING
 
 		for event in events:
 			summary = None

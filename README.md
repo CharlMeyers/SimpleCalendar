@@ -8,7 +8,7 @@ This program generates a black and white bitmap image for display on e-ink displ
 
 ## Setup notes
 
-This project was written in Python 3.6. It relies primarily on [Python Imaging Library (PIL)](https://pypi.org/project/Pillow/) now known as Pillow, [Google Calendar API](https://developers.google.com/api-client-library/python/apis/calendar/v3) and the [Python Library](https://www.waveshare.com/wiki/7.5inch_e-Paper_HAT) required for the e-ink display. Setup notes can be found in the included links and will also be listed below:
+This project was written in Python 3.6. It relies primarily on [Python Imaging Library (PIL)](https://pypi.org/project/Pillow/) now known as Pillow, [Google Calendar API](https://developers.google.com/api-client-library/python/apis/calendar/v3) and the [Waveshare Python Display Drivers](https://www.waveshare.com/wiki/7.5inch_e-Paper_HAT) required for the e-ink display. Setup notes can be found in the included links and will also be listed below:
 
 ### To setup on Raspberry Pi
 
@@ -40,7 +40,7 @@ sudo pip3 install spidev
 sudo pip3 install RPi.GPIO
 ```
 
-* Lastly install all pyton libraries required for Google Calendar API
+* Lastly install all python libraries required for Google Calendar API
 
 ```bash
 sudo pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
