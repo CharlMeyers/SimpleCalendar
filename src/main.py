@@ -1,9 +1,12 @@
-import googleCalendarWorker
-import calendarBuilder
-import screenInterface
+import os
+
+from src.api_workers import googleCalendarWorker
+from src.utils import calendarBuilder
+
+from src.utils import screenInterface
 
 calendar_ids = []
-with open('calendars.id', 'r') as calendar_ids_file:
+with open(os.path.join(os.path.dirname(__file__), 'calendars.id'), 'r') as calendar_ids_file:
 	for id in calendar_ids_file:
 		if id[0] != '#':
 			calendar_ids.append(id.strip())

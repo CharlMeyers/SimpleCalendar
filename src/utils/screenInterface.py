@@ -1,5 +1,5 @@
-import epd7in5
-import constants
+from src.lib import epd7in5
+from src import constants
 from PIL import ImageFont,ImageDraw, Image
 
 screen = epd7in5.EPD()

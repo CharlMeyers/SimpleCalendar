@@ -2,7 +2,8 @@ from datetime import datetime
 from PIL import Image, ImageDraw
 import math
 import calendar
-import constants
+from src import constants
+
 
 class CalendarBuilder:
 	def __init__(self, width, height):
@@ -82,7 +83,7 @@ class CalendarBuilder:
 			self.highlight_today(draw_element, coordinate_x, coordinate_y, str(calendar_day), constants.DATE_FONT)
 		else:
 			draw_element.text((coordinate_x, coordinate_y),
-						  str(calendar_day), constants.FONT_COLOR, constants.DATE_FONT)
+							  str(calendar_day), constants.FONT_COLOR, constants.DATE_FONT)
 
 		events_for_current_day = [event for event in events if event['start'] and event['start'].get('date') and
 								  datetime.strptime(event['start'].get('date'), '%Y-%m-%d').day == calendar_day]
@@ -136,16 +137,16 @@ class CalendarBuilder:
 			if date != 0:
 				if coordinates_vertical != constants.CALENDAR_BORDER and coordinates_horizontal != 0:
 					self.write_calendar_day(draw, coordinates_vertical + constants.CELL_PADDING,
-									   coordinates_horizontal + calendar_header_offset + constants.LINE_PADDING, date, events)
+											coordinates_horizontal + calendar_header_offset + constants.LINE_PADDING, date, events)
 				elif coordinates_vertical != constants.CALENDAR_BORDER:
 					self.write_calendar_day(draw, coordinates_vertical + constants.CELL_PADDING,
-									   coordinates_horizontal + calendar_day_name_offset + constants.LINE_PADDING, date, events)
+											coordinates_horizontal + calendar_day_name_offset + constants.LINE_PADDING, date, events)
 				elif coordinates_horizontal == 0 and coordinates_vertical == constants.CALENDAR_BORDER:
 					self.write_calendar_day(draw, constants.CALENDAR_BORDER + constants.CELL_PADDING,
-									   coordinates_horizontal + calendar_day_name_offset + constants.LINE_PADDING, date, events)
+											coordinates_horizontal + calendar_day_name_offset + constants.LINE_PADDING, date, events)
 				else:
 					self.write_calendar_day(draw, constants.CALENDAR_BORDER + constants.CELL_PADDING,
-									   coordinates_horizontal + calendar_header_offset + constants.LINE_PADDING, date, events)
+											coordinates_horizontal + calendar_header_offset + constants.LINE_PADDING, date, events)
 
 			coordinates_vertical += vertical_step
 			if day_in_month % 7 == 0:

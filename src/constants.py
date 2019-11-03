@@ -11,8 +11,8 @@ FILL_COLOR = WHITE
 FONT_COLOR = BLACK
 LINE_WIDTH = 1
 
-FONT_REGULAR = "segoeui.ttf"
-FONT_BOLD = "segoeuib.ttf"
+FONT_REGULAR = "assets/fonts/segoeui.ttf"
+FONT_BOLD = "assets/fonts/segoeuib.ttf"
 
 # Config
 CALENDAR_BORDER = 10

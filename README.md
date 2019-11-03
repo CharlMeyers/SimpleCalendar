@@ -4,7 +4,7 @@ A simple calendar that can replace your printed out version on the wall.
 
 This is a simple black and white calendar that integrates with [Google Calendar](https://developers.google.com/calendar/) to display your events. This is perfect for a e-ink calendar project.
 
-This program generates a black and white bitmap image for display on e-ink displays. This calendar has been written in Python with the [Waveshare 7.5inch e-ink](https://www.waveshare.com/7.5inch-e-paper-hat.htm) display in mind. However this should work with any screen resolution and e-paper display, just change the imported library in [screenInterface.py](screeninterface.py) to the library used for your display. It is also not limited to just e-ink displays, as long as your display can show bitmaps you should be fine.
+This program generates a black and white bitmap image for display on e-ink displays. This calendar has been written in Python with the [Waveshare 7.5inch e-ink](https://www.waveshare.com/7.5inch-e-paper-hat.htm) display in mind. However this should work with any screen resolution and e-paper display, just change the imported library in [screenInterface.py](screeninterface.py) to the library used for your display. Add the imported library files to the [lib](src/lib) folder. It is also not limited to just e-ink displays, as long as your display can show bitmaps you should be fine.
 
 ## Setup notes
 
@@ -57,17 +57,17 @@ You will need to enable Google Calendar API in your Google API Console (see [Goo
 1. A `credentials.json` file
 2. A `token.pickle` file
 
-See [Python Quickstart](https://developers.google.com/calendar/quickstart/python) on how to create these 2 files. It is easiest to run the example code they give you and just copy over the 2 required files to your microcontroller.
+See [Python Quickstart](https://developers.google.com/calendar/quickstart/python) on how to create these 2 files. It is easiest to run the example code they give you and just copy over the 2 required files to your microcontroller. Add these 2 files to the [auth](src/auth) folder under [google](src/auth/google).
 
 These files are used to authenticate against a Google account where your calendars you want to see lives on.
 
 #### Note
 
-This program requires font files to work. You can specify your own path to your font of choice by changing `FONT_REGULAR` and `FONT_BOLD` in [constants.py](constants.py). To guarantee the best possible text alignment download "**Raleway Light** and **Bold**" from [Google Fonts](https://fonts.google.com/specimen/Raleway) and put it in the same directory as the program.
+This program requires font files to work. You can specify your own path to your font of choice by changing `FONT_REGULAR` and `FONT_BOLD` in [constants.py](constants.py). To guarantee the best possible text alignment download "**Segoe UI** and **Segoe UI Bold**" from [Google Fonts](https://fonts.google.com/specimen/Raleway) and put it in the [assets/fonts](src/assets/fonts) folder
 
 #### Note
 
-This works out of the box with [Waveshare 7.5inch e-ink](https://www.waveshare.com/7.5inch-e-paper-hat.htm), download the required [Python Library](https://www.waveshare.com/wiki/7.5inch_e-Paper_HAT) and copy `epd7in5.py` and `epdconfig.py` to the root folder of the project. To change the library to the one you need modify [screenInterface.py](screeninterface.py) with the library required for your display.
+This works out of the box with [Waveshare 7.5inch e-ink](https://www.waveshare.com/7.5inch-e-paper-hat.htm), download the required [Python Library](https://www.waveshare.com/wiki/7.5inch_e-Paper_HAT) and copy `epd7in5.py` and `epdconfig.py` to the [lib](src/lib) folder. To change the library to the one you need modify [screenInterface.py](screeninterface.py) with the library required for your display.
 
 ### Tips
 
@@ -89,9 +89,9 @@ Save the file and run `crontab -l` to make sure that the job is there. Read [htt
 
 ### Customization
 
-Anything under "Customization" in [constants.py](constants.py) can be changed. You can change anything else under "Config" in [constants.py](constants.py) but it is not guaranteed that the calendar will look good without some further changes to the code.
+Anything under "Customization" in [constants.py](src/constants.py) can be changed. You can change anything else under "Config" in [constants.py](src/constants.py) but it is not guaranteed that the calendar will look good without some further changes to the code.
 
-You can specify any number of calendars in [calendars.id](calendars.id) as long as it is in the same account used to authenticate the calendar. You can also comment out any calendar id's by putting a `#` at the start of the line.
+You can specify any number of calendars in `src/calendars.id` as long as it is in the same account used to authenticate the calendar. You can also comment out any calendar id's by putting a `#` at the start of the line. **Note** `src/calendars.id` still needs to be created
 
 ## Contributing
 
