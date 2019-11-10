@@ -2,7 +2,7 @@ from datetime import datetime
 from PIL import Image, ImageDraw
 import math
 import calendar
-from src import constants
+import constants
 
 
 class CalendarBuilder:

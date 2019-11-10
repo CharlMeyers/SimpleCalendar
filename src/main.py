@@ -1,7 +1,7 @@
 import os
 
-from src.api_workers import googleCalendarWorker
-from src.utils import calendarBuilder
+from api_workers import googleCalendarWorker
+from utils import calendarBuilder
 
 from src.utils import screenInterface
 

@@ -9,7 +9,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
 # Taken from https://developers.google.com/calendar/quickstart/python
-from src import constants
+import constants
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
@@ -27,8 +27,8 @@ def get_events(calendar_ids):
 		# The file token.pickle stores the user's access and refresh tokens, and is
 		# created automatically when the authorization flow completes for the first
 		# time.
-		if os.path.exists('src/auth/google/token.pickle'):
-			with open('src/auth/google/token.pickle', 'rb') as token:
+		if os.path.exists('./auth/google/token.pickle'):
+			with open('./auth/google/token.pickle', 'rb') as token:
 				user_credentials = pickle.load(token)
 		# If there are no (valid) credentials available, let the user log in.
 		if not user_credentials or not user_credentials.valid:
@@ -36,7 +36,7 @@ def get_events(calendar_ids):
 				user_credentials.refresh(Request())
 			else:
 				flow = InstalledAppFlow.from_client_secrets_file(
-					'src/auth/google/credentials.json', SCOPES)
+					'./auth/google/credentials.json', SCOPES)
 				user_credentials = flow.run_local_server()
 			# Save the credentials for the next run
 			with open('src/auth/google/token.pickle', 'wb') as token:
