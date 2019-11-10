@@ -3,7 +3,7 @@ import os
 from api_workers import googleCalendarWorker
 from utils import calendarBuilder
 
-from src.utils import screenInterface
+from utils import screenInterface
 
 calendar_ids = []
 with open(os.path.join(os.path.dirname(__file__), 'calendars.id'), 'r') as calendar_ids_file:
