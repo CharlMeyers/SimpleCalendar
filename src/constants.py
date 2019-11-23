@@ -12,8 +12,8 @@ FILL_COLOR = WHITE
 FONT_COLOR = BLACK
 LINE_WIDTH = 1
 
-FONT_REGULAR = "os.path.join(os.path.dirname(__file__), assets/fonts/segoeui.ttf)"
-FONT_BOLD = "os.path.join(os.path.dirname(__file__), assets/fonts/segoeuib.ttf)"
+FONT_REGULAR = os.path.join(os.path.dirname(__file__), "assets/fonts/segoeui.ttf")
+FONT_BOLD = os.path.join(os.path.dirname(__file__), "assets/fonts/segoeuib.ttf")
 
 # Config
 CALENDAR_BORDER = 10

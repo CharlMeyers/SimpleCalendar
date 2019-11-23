@@ -18,7 +18,6 @@ SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 def get_events(calendar_ids):
 	user_credentials = None
 	events = []
-
 	# Check to see if there is internet connection.
 	# Otherwise return empty events list
 	try: # From https://stackoverflow.com/questions/50558000/test-internet-connection-for-python3
@@ -27,8 +26,8 @@ def get_events(calendar_ids):
 		# The file token.pickle stores the user's access and refresh tokens, and is
 		# created automatically when the authorization flow completes for the first
 		# time.
-		if os.path.exists('./auth/google/token.pickle'):
-			with open('./auth/google/token.pickle', 'rb') as token:
+		if os.path.exists(os.path.join(os.path.dirname(__file__), '..', 'auth/google/token.pickle')):
+			with open(os.path.join(os.path.dirname(__file__), '..', 'auth/google/token.pickle'), 'rb') as token:
 				user_credentials = pickle.load(token)
 		# If there are no (valid) credentials available, let the user log in.
 		if not user_credentials or not user_credentials.valid:
@@ -36,10 +35,10 @@ def get_events(calendar_ids):
 				user_credentials.refresh(Request())
 			else:
 				flow = InstalledAppFlow.from_client_secrets_file(
-					'./auth/google/credentials.json', SCOPES)
+					os.path.join(os.path.dirname(__file__), '..', 'auth/google/credentials.json'), SCOPES)
 				user_credentials = flow.run_local_server()
 			# Save the credentials for the next run
-			with open('src/auth/google/token.pickle', 'wb') as token:
+			with open(os.path.join(os.path.dirname(__file__), '..', 'auth/google/token.pickle'), 'wb') as token:
 				pickle.dump(user_credentials, token)
 
 		service = build('calendar', 'v3', credentials=user_credentials)
