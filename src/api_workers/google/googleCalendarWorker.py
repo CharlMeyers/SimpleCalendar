@@ -26,8 +26,8 @@ def get_events(calendar_ids):
 		# The file token.pickle stores the user's access and refresh tokens, and is
 		# created automatically when the authorization flow completes for the first
 		# time.
-		if os.path.exists(os.path.join(os.path.dirname(__file__), '..', 'auth/google/token.pickle')):
-			with open(os.path.join(os.path.dirname(__file__), '..', 'auth/google/token.pickle'), 'rb') as token:
+		if os.path.exists(os.path.join(os.path.dirname(__file__), '../..', 'auth/google/token.pickle')):
+			with open(os.path.join(os.path.dirname(__file__), '../..', 'auth/google/token.pickle'), 'rb') as token:
 				user_credentials = pickle.load(token)
 		# If there are no (valid) credentials available, let the user log in.
 		if not user_credentials or not user_credentials.valid:
@@ -35,10 +35,10 @@ def get_events(calendar_ids):
 				user_credentials.refresh(Request())
 			else:
 				flow = InstalledAppFlow.from_client_secrets_file(
-					os.path.join(os.path.dirname(__file__), '..', 'auth/google/credentials.json'), SCOPES)
+					os.path.join(os.path.dirname(__file__), '../..', 'auth/google/credentials.json'), SCOPES)
 				user_credentials = flow.run_local_server()
 			# Save the credentials for the next run
-			with open(os.path.join(os.path.dirname(__file__), '..', 'auth/google/token.pickle'), 'wb') as token:
+			with open(os.path.join(os.path.dirname(__file__), '../..', 'auth/google/token.pickle'), 'wb') as token:
 				pickle.dump(user_credentials, token)
 
 		service = build('calendar', 'v3', credentials=user_credentials)
