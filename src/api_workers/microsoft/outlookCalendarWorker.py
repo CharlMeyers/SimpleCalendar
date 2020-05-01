@@ -1,9 +1,11 @@
+import atexit
+
 import requests
 import os.path
 import msal
 import json
 
-credentials = json.load(os.path.join(os.path.dirname(__file__), '../..', 'auth/microsoft/credentials.json'))
+credentials = json.load(open(os.path.join(os.path.dirname(__file__), '../..', 'auth/microsoft/credentials.json'), 'r'))
 
 client_id = credentials['app_id']
 scopes = credentials['scopes'].split(' ')
@@ -12,7 +14,19 @@ authority = credentials['authority']
 
 result = None
 
-app = msal.PublicClientApplication(client_id, authority=authority)
+cache = msal.SerializableTokenCache()
+cache_path = os.path.join(os.path.dirname(__file__), '../..', 'auth/microsoft/token_cache.bin')
+app = msal.PublicClientApplication(client_id, authority=authority, token_cache=cache)
+
+if os.path.exists(cache_path):
+	cache.deserialize(open(cache_path, 'r').read())
+
+# Saves cache to disk before closing the program
+atexit.register(lambda:
+    open(cache_path, "w+").write(cache.serialize())
+    # Hint: The following optional line persists only when state changed
+    if cache.has_state_changed else None
+    )
 
 accounts = app.get_accounts()
 if accounts:
@@ -43,7 +57,7 @@ if "access_token" in result:
 	# Send GET to /me/events
 	events = requests.get('{0}/me/events'.format(graph_url), headers=headers)
 
-	print(events.json())
+	print(events.json()['value'])
 else:
 	print(result.get("error"))
 	print(result.get("error_description"))
