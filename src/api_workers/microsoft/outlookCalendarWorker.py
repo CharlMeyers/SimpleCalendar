@@ -53,11 +53,13 @@ if "access_token" in result:
 	headers = {
 		'Authorization': 'Bearer {0}'.format(result['access_token'])
 	}
+	query = "?$filter=start/dateTime ge '2020-05-01T00:00' and end/dateTime le '2020-05-31T00:00'"
 
 	# Send GET to /me/events
-	events = requests.get('{0}/me/events'.format(graph_url), headers=headers)
+	events = requests.get('{0}/me/events{1}'.format(graph_url, query), headers=headers).json()['value']
 
-	print(events.json()['value'])
+	for event in events:
+		print(event['subject'])
 else:
 	print(result.get("error"))
 	print(result.get("error_description"))

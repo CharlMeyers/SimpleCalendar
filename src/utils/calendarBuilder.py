@@ -1,4 +1,3 @@
-from datetime import datetime
 from PIL import Image, ImageDraw
 import math
 import calendar
@@ -69,8 +68,8 @@ class CalendarBuilder:
 
 		for event in events:
 			summary = None
-			if event['summary']:
-				summary = event['summary']
+			if event.subject:
+				summary = event.subject
 				if len(summary) > max_event_length:
 					summary = self.trim_text(draw_element, summary, max_event_length)
 
@@ -85,10 +84,8 @@ class CalendarBuilder:
 			draw_element.text((coordinate_x, coordinate_y),
 							  str(calendar_day), constants.FONT_COLOR, constants.DATE_FONT)
 
-		events_for_current_day = [event for event in events if event['start'] and event['start'].get('date') and
-								  datetime.strptime(event['start'].get('date'), '%Y-%m-%d').day == calendar_day]
-		events_for_current_day.extend([event for event in events if event['start'] and event['start'].get('dateTime') and
-								  datetime.strptime(event['start'].get('dateTime')[0: event['start'].get('dateTime').index('T')], '%Y-%m-%d').day == calendar_day])
+		events_for_current_day = [event for event in events if event.start and event.start.day == calendar_day]
+
 		if events_for_current_day and len(events_for_current_day) > 0:
 			self.add_event(draw_element, coordinate_x, coordinate_y, events_for_current_day)
 

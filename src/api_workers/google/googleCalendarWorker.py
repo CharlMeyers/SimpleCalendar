@@ -10,6 +10,7 @@ from google.auth.transport.requests import Request
 
 # Taken from https://developers.google.com/calendar/quickstart/python
 import constants
+from src.models.event import Event
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
@@ -58,4 +59,5 @@ def get_events(calendar_ids):
 	except URLError:
 			events = []
 
-	return events
+	return list(map(lambda e: Event(e, 'Google'), events))
+
