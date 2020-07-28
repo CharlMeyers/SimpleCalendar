@@ -46,6 +46,16 @@ sudo pip3 install RPi.GPIO
 sudo pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 ```
 
+```bash
+pip install requests_oauthlib
+```
+
+* Install msal (Microsoft Authentication Library)
+
+```bash
+sudo pip3 install msal
+```
+
 ## Running the program
 
 To run the program simply run [main.py](main.py).
