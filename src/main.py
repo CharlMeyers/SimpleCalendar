@@ -1,6 +1,7 @@
 import os
 
-from api_workers import googleCalendarWorker
+from api_workers.google import googleCalendarWorker
+from api_workers.microsoft import outlookCalendarWorker
 from utils import calendarBuilder
 
 from utils import screenInterface
@@ -18,6 +19,7 @@ print("Getting calendar events")
 events = googleCalendarWorker.get_events(calendar_ids)
 
 screen_width, screen_height = screenInterface.get_screen_resolution()
+events.extend(outlookCalendarWorker.get_events())
 
 print("Building calendar")
 builder = calendarBuilder.CalendarBuilder(screen_width, screen_height)

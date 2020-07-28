@@ -49,7 +49,7 @@ def get_events(calendar_ids):
 		first_day_of_month = constants.TODAY.replace(day=1)
 		last_day_of_month = constants.TODAY.replace(day=calendar.monthrange(constants.TODAY.year, constants.TODAY.month)[1])
 
-		print('Getting events for current month')
+		print('Getting Google events for current month')
 		for calendar_id in calendar_ids:
 			events_result = service.events().list(calendarId= calendar_id, timeMin=first_day_of_month.isoformat() + 'Z',
 												timeMax=last_day_of_month.isoformat() + 'Z', singleEvents=True, showDeleted=False,
