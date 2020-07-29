@@ -7,7 +7,7 @@ import msal
 import json
 import constants
 from models.event import Event
-from src.utils import screenInterface
+from utils import screenInterface
 
 
 def get_events():
