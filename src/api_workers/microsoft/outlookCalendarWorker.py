@@ -6,7 +6,7 @@ import os.path
 import msal
 import json
 import constants
-from src.models.event import Event
+from models.event import Event
 from src.utils import screenInterface
 
 
