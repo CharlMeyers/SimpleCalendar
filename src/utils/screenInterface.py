@@ -19,7 +19,7 @@ def get_text_dimensions(text, font):
 
 def get_max_character_count(font):
 	ascent, text_height, text_width, descent = get_text_dimensions('A', font)  # Trying to use the widest character
-	max_character_count = math.floor(epd7in5.EPD_WIDTH / text_width)
+	max_character_count = math.floor(epd7in5.EPD_WIDTH - constants.CALENDAR_BORDER / text_width)
 
 	return max_character_count, text_height
 
@@ -32,7 +32,7 @@ def display_text(text):
 	text_display_font = ImageFont.truetype(constants.FONT_REGULAR, 18)
 	max_character_count, text_height = get_max_character_count(text_display_font)
 	for line in textwrap.wrap(text, max_character_count):
-		text_image_draw.text((0, offset), line, constants.FONT_COLOR, text_display_font)
+		text_image_draw.text((constants.CALENDAR_BORDER, offset), line, constants.FONT_COLOR, text_display_font)
 		offset += text_height + 5
 	send_to_screen(text_image)
 
