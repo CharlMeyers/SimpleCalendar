@@ -12,6 +12,10 @@ from src.utils import screenInterface
 
 def get_events():
 	print('Getting Outlook events for current month')
+
+	if not os.path.exists(os.path.join(os.path.dirname(__file__), '../..', 'auth/microsoft/credentials.json')):
+		return []
+
 	credentials = json.load(
 		open(os.path.join(os.path.dirname(__file__), '../..', 'auth/microsoft/credentials.json'), 'r'))
 
