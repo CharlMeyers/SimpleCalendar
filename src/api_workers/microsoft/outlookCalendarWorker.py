@@ -64,7 +64,7 @@ def get_events():
 	if "access_token" in token:
 		first_day_of_month = constants.TODAY.replace(day=1)
 		last_day_of_month = constants.TODAY.replace(
-			day=calendar.monthrange(constants.TODAY.year, constants.TODAY.month)[1])
+			day=calendar.monthrange(constants.TODAY.year, constants.TODAY.month)[1], hour=23, minute=59, second=59)
 
 		headers = {
 			'Authorization': 'Bearer {0}'.format(token['access_token'])

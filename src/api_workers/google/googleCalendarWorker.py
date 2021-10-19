@@ -47,7 +47,8 @@ def get_events(calendar_ids):
 		# Call the Calendar API
 		# From https://gist.github.com/waynemoore/1109153
 		first_day_of_month = constants.TODAY.replace(day=1)
-		last_day_of_month = constants.TODAY.replace(day=calendar.monthrange(constants.TODAY.year, constants.TODAY.month)[1])
+		last_day_of_month = constants.TODAY.replace(
+			day=calendar.monthrange(constants.TODAY.year, constants.TODAY.month)[1], hour=23, minute=59, second=59)
 
 		print('Getting Google events for current month')
 		for calendar_id in calendar_ids:
