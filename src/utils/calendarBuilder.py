@@ -67,6 +67,9 @@ class CalendarBuilder:
 		#text_height += constants.CELL_PADDING + constants.LINE_PADDING
 
 		for event in events:
+			if event.start.month != constants.TODAY.month:
+				continue
+
 			summary = None
 			if event.subject:
 				summary = event.subject
