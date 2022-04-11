@@ -52,13 +52,11 @@ class CalendarBuilder:
 		return ascent, text_height, text_width, descent
 
 	def highlight_today(self, draw_element, coordinate_x, coordinate_y, text, font):
-		# From https://stackoverflow.com/questions/8868564/draw-underline-text-with-pil
 		ascent, text_height, text_width, descent = self.get_text_dimensions(text, font)
 		padding = text_height + descent
-		draw_element.text((coordinate_x, coordinate_y), text, constants.FONT_COLOR, font)
-		draw_element.arc((coordinate_x - constants.CIRCLE_PADDING, coordinate_y, coordinate_x + text_width +
-						  constants.CIRCLE_PADDING, coordinate_y + padding), 0, 360, constants.LINE_COLOR)
-		#draw_element.line((coordinate_x, coordinate_y + padding, coordinate_x + text_width, coordinate_y + padding))
+		draw_element.ellipse((coordinate_x - constants.CIRCLE_PADDING, coordinate_y, coordinate_x + text_width +
+						  constants.CIRCLE_PADDING, coordinate_y + padding), fill=constants.LINE_COLOR)
+		draw_element.text((coordinate_x, coordinate_y), text, constants.FILL_COLOR, font)
 
 	def add_event(self, draw_element, coordinate_x, coordinate_y, events):
 		ascent, text_height, text_width, descent = self.get_text_dimensions('A', constants.DATE_FONT) # Trying to use the widest character
