@@ -80,7 +80,7 @@ class CalendarBuilder:
 
 	def write_calendar_day(self, draw_element, coordinate_x, coordinate_y, calendar_day, events):
 		if calendar_day == constants.TODAY.day:
-			self.highlight_today(draw_element, coordinate_x, coordinate_y, str(calendar_day), constants.DATE_FONT)
+			self.highlight_today(draw_element, coordinate_x, coordinate_y, str(calendar_day), constants.WEEKDAY_FONT)
 		else:
 			draw_element.text((coordinate_x, coordinate_y),
 							  str(calendar_day), constants.FONT_COLOR, constants.DATE_FONT)
